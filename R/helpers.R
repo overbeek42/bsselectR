@@ -66,6 +66,12 @@ buildHTML <- function(choices, selected = NULL, type = c("text", "img", "iframe"
 
     return(renderTags(out, indent = FALSE))
 
+  }`else if (type == "kable") {
+    js <- paste0("$(document).ready(function(){\n                  $(\"#", 
+                 id1, "\").change(function(){\n                  $(\"#", 
+                 id2, "\").text($(this).val());\n                  });\n});")
+    out <- tags$html(select_tag, table(sel, id = id2), tags$script(htmlwidgets::JS(js)))
+    return(renderTags(out, indent = FALSE))
   } else if (type == "img") {
     js <- paste0('$(document).ready(function(){
                  $("#', id1, '").change(function(){
